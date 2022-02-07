@@ -8,6 +8,9 @@ import { ForecastComponent } from './forecast/forecast.component';
   declarations: [
     ForecastComponent
   ],
+  exports: [
+    ForecastComponent
+  ],
   imports: [
     CommonModule
   ]
