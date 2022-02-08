@@ -6,7 +6,7 @@ interface OpenWeatherResponse {
   list: {
     dt_txt: string;
     main: {
-      temp: string;
+      temp: number;
     }
   }[]
 }

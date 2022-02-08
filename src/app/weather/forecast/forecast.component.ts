@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ForecastService } from "../forecast.service";
+import { Observable } from "rxjs";
 
-interface ForecastData {
+interface forecastData {
   dateString: string;
-  temp: string;
+  temp: number;
 }
 
 @Component({
@@ -11,15 +12,10 @@ interface ForecastData {
   templateUrl: './forecast.component.html',
   styleUrls: ['./forecast.component.scss']
 })
-export class ForecastComponent implements OnInit {
-  forecastData: ForecastData[] = [];
+export class ForecastComponent {
+  forecast$: Observable<forecastData[]>;
 
-  constructor(private forecastService: ForecastService) {}
-
-  ngOnInit() {
-    this.forecastService.getForecast().subscribe(forecastData => {
-        console.log(forecastData);
-        this.forecastData = forecastData;
-    });
+  constructor(private forecastService: ForecastService) {
+    this.forecast$ = forecastService.getForecast();
   }
 }
