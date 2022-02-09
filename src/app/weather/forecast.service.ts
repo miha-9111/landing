@@ -6,7 +6,7 @@ import {
   mergeMap,
   Observable,
   of,
-  pluck,
+  pluck, retry,
   share,
   switchMap,
   tap,
@@ -61,6 +61,7 @@ export class ForecastService {
 
   getCurrentLocation() {
     return new Observable<GeolocationCoordinates>((observer) => {
+      console.log('Trying to get location...')
       window.navigator.geolocation.getCurrentPosition(
         position => {
           observer.next(position.coords);
@@ -69,6 +70,7 @@ export class ForecastService {
         err => observer.error(err)
       );
     }).pipe(
+      retry(2),
       tap(() => {
         this.notificationsService.addSuccess('Got your location');
       }),
