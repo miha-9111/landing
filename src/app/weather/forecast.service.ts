@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { filter, map, mergeMap, Observable, of, pluck, share, switchMap, toArray } from "rxjs";
+import { filter, map, mergeMap, Observable, of, pluck, share, switchMap, tap, toArray } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
+import { NotificationsService } from "../notifications/notifications.service";
 
 interface OpenWeatherResponse {
   list: {
@@ -17,7 +18,8 @@ interface OpenWeatherResponse {
 export class ForecastService {
   private url = 'https://api.openweathermap.org/data/2.5/forecast';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private notificationsService: NotificationsService) {}
 
   getForecast() {
     return this.getCurrentLocation()
@@ -53,6 +55,14 @@ export class ForecastService {
         },
         err => observer.error(err)
       );
-    });
+    }).pipe(
+      tap(() => {
+        this.notificationsService.addSuccess('Got your location');
+      },
+        () => {
+          this.notificationsService.addError('Failed to get your location');
+        }
+      )
+    );
   }
 }

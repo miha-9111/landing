@@ -12,13 +12,13 @@ export class NotificationListComponent implements OnInit {
 
   constructor(private notificationsService: NotificationsService) {
     this.messages = this.notificationsService.messagesOutput;
-
-    // setInterval(() => {
-    //   this.notificationsService.addError('IT IS erorrlly Working!!!');
-    // }, 500);
   }
 
   ngOnInit() {
+  }
+
+  clearMessage(id: number) {
+    this.notificationsService.clearMessage(id);
   }
 
 }
