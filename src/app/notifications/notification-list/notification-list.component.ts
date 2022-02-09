@@ -14,7 +14,7 @@ export class NotificationListComponent implements OnInit {
     this.messages = this.notificationsService.messagesOutput;
 
     // setInterval(() => {
-    //   this.notificationsService.addSuccess('IT IS Working!!!');
+    //   this.notificationsService.addError('IT IS erorrlly Working!!!');
     // }, 500);
   }
 
