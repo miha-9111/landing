@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, Subject, switchMap, tap } from "rxjs";
+import { map, Observable, pluck, Subject, switchMap, tap } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 
 interface NewsApiResponse {
@@ -19,7 +19,7 @@ export class NewsApiService {
   private apiKey = '2a13be401d4541c9bbd9f46e4ae7cda8';
   private country = 'us';
 
-  pagesInput: Subject<number>;
+  private pagesInput: Subject<number>;
   pagesOutput: Observable<any>;
   numberOfPages: Subject<number>;
 
@@ -42,6 +42,11 @@ export class NewsApiService {
         const totalPages = Math.ceil(response.totalResults / this.pageSize);
         this.numberOfPages.next(totalPages);
       }),
+      pluck('articles')
     );
+  }
+
+  getPage(page: number) {
+    this.pagesInput.next(page);
   }
 }
