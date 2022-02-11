@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Article, NewsApiService } from "../news-api.service";
 
 @Component({
   selector: 'app-na-article-list',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./na-article-list.component.scss']
 })
 export class NaArticleListComponent implements OnInit {
+  articles!: Article[];
 
-  constructor() { }
+  constructor(private newsApiService: NewsApiService) {
+    this.newsApiService.pagesOutput.subscribe((articles) => {
+      this.articles = articles;
+    });
+  }
 
-  ngOnInit(): void {
+  ngOnInit() {
   }
 
 }
